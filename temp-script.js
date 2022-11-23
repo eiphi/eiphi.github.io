@@ -13,18 +13,9 @@ self.addEventListener('push', function (event) {
 
 self.addEventListener('notificationclick', function (event) {
 	event.notification.close();
-	// This looks to see if the current site is already open and focuses if it is
-	event.waitUntil(
-		clients
-			.matchAll({
-				type: 'window'
-			})
-			.then(function (clientList) {
-				for (var i = 0; i < clientList.length; i++) {
-					var client = clientList[i];
-					if (client.url === '/' && 'focus' in client) return client.focus();
-				}
-				if (clients.openWindow) return clients.openWindow('/');
-			})
-	);
+	// Checks primary action for url and opens the window in client
+	var primaryActionData = event.notification.data && event.notification.data.primary_action;
+	if (primaryActionData && primaryActionData.url && primaryActionData.action === 'page') {
+		if (clients.openWindow) return clients.openWindow(primaryActionData.url);
+	}
 });
