@@ -11,7 +11,7 @@ self.addEventListener('push', function (event) {
 	event.waitUntil(self.registration.showNotification(title, options));
 });
 
-function openUrl(_url) {
+function openUrl(_event, _url) {
 	_event.waitUntil(
 		clients
 			.matchAll({
@@ -27,10 +27,10 @@ function openUrl(_url) {
 	);
 }
 
-function handleActionClick(_actionData, _event) {
+function handleActionClick(_event, _actionData) {
 	// Checks primary action for url and opens the window in client
-	if (_actionData && _actionData.url && _actionData.action === 'page') {
-		openUrl(_actionData.url);
+	if (_actionData && _actionData.action === 'page' && _actionData.url) {
+		openUrl(_event, _actionData.url);
 	}
 	if (_actionData && _actionData.action === 'talk') {
 		// TODO handle talk
@@ -42,11 +42,11 @@ self.addEventListener('notificationclick', function (event) {
 	if (event.action) {
 		// clicked an action
 		var secondaryActionData = notificationData && notificationData[event.action];
-		handleActionClick(secondaryActionData, event);
+		handleActionClick(event, secondaryActionData);
 	} else {
 		// clicked a notification
 		var primaryActionData = notificationData && notificationData.primary_action;
-		handleActionClick(primaryActionData, event);
+		handleActionClick(event, primaryActionData);
 	}
 	event.notification.close();
 });
