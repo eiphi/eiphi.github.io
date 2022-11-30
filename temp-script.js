@@ -11,7 +11,7 @@ self.addEventListener('push', function (event) {
 	event.waitUntil(self.registration.showNotification(title, options));
 });
 
-function openUrl(_event) {
+function openUrl(_url) {
 	_event.waitUntil(
 		clients
 			.matchAll({
@@ -20,19 +20,19 @@ function openUrl(_event) {
 			.then(function (clientList) {
 				for (var i = 0; i < clientList.length; i++) {
 					var client = clientList[i];
-					if (client.url === '/' && 'focus' in client) return client.focus();
+					if (client.url === _url && 'focus' in client) return client.focus();
 				}
-				if (clients.openWindow) return clients.openWindow('/');
+				if (clients.openWindow) return clients.openWindow(_url);
 			})
 	);
 }
 
 function handleActionClick(_actionData, _event) {
 	// Checks primary action for url and opens the window in client
-	if (primaryActionData && primaryActionData.url && primaryActionData.action === 'page') {
-		if (clients.openWindow) return clients.openWindow(primaryActionData.url);
+	if (_actionData && _actionData.url && _actionData.action === 'page') {
+		openUrl(_actionData.url);
 	}
-	if (primaryActionData && primaryActionData.action === 'talk') {
+	if (_actionData && _actionData.action === 'talk') {
 		// TODO handle talk
 	}
 }
