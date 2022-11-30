@@ -20,9 +20,15 @@ function openUrl(_event, _url) {
 			.then(function (clientList) {
 				for (var i = 0; i < clientList.length; i++) {
 					var client = clientList[i];
-					if (client.url === _url && 'focus' in client) return client.focus();
+					if (client.url === _url && 'focus' in client) {
+						_event.notification.close();
+						return client.focus();
+					}
 				}
-				if (clients.openWindow) return clients.openWindow(_url);
+				if (clients.openWindow) {
+					_event.notification.close();
+					return clients.openWindow(_url);
+				}
 			})
 	);
 }
@@ -33,6 +39,7 @@ function handleActionClick(_event, _actionData) {
 		openUrl(_event, _actionData.url);
 	}
 	if (_actionData && _actionData.action === 'talk') {
+		_event.notification.close();
 		// TODO handle talk
 	}
 }
@@ -48,5 +55,4 @@ self.addEventListener('notificationclick', function (event) {
 		var primaryActionData = notificationData && notificationData.primary_action;
 		handleActionClick(event, primaryActionData);
 	}
-	event.notification.close();
 });
