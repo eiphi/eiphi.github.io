@@ -36,7 +36,18 @@ function handleActionClick(_event, _actionData) {
 
 function mutateOptions(data) {
 	// This is temporary, could be deleted/changed in the future if browsers add `image` support
-	// If navigator is Firefox or MacOS Chrome we override icon with image 
+	// If navigator is Firefox or MacOS Chrome we override icon with image
+	if (data && data.image) {
+		var navUserAgent = navigator && navigator.userAgent;
+		console.log('navUserAgent', navUserAgent);
+		if (
+			(navUserAgent.find('Mac OS') !== -1 && navUserAgent.find('Chrome') !== -1) ||
+			navUserAgent.find('Firefox') !== -1
+		) {
+			data.icon = data.image;
+		}
+		return data;
+	}
 }
 
 self.addEventListener('install', function () {
