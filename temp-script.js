@@ -34,6 +34,11 @@ function handleActionClick(_event, _actionData) {
 	}
 }
 
+function mutateOptions(data) {
+	// This is temporary, could be deleted/changed in the future if browsers add `image` support
+	// If navigator is Firefox or MacOS Chrome we override icon with image 
+}
+
 self.addEventListener('install', function () {
 	self.skipWaiting();
 });
@@ -43,7 +48,7 @@ self.addEventListener('push', function (event) {
 	console.log('[Service Worker] Push had this data:', event.data.text());
 
 	var title = event.data.json().title;
-	var options = event.data.json();
+	var options = mutateOptions(event.data.json());
 
 	event.waitUntil(self.registration.showNotification(title, options));
 });
