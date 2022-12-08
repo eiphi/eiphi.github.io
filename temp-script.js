@@ -41,8 +41,8 @@ function mutateOptions(data) {
 		var navUserAgent = navigator && navigator.userAgent;
 		console.log('navUserAgent', navUserAgent);
 		if (
-			(navUserAgent.find('Mac OS') !== -1 && navUserAgent.find('Chrome') !== -1) ||
-			navUserAgent.find('Firefox') !== -1
+			(navUserAgent.search('Mac OS') !== -1 && navUserAgent.search('Chrome') !== -1) ||
+			navUserAgent.search('Firefox') !== -1
 		) {
 			data.icon = data.image;
 		}
