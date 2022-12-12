@@ -1,4 +1,3 @@
-/* eslint-disable */
 'use strict';
 
 function openUrl(_event, _url) {
@@ -39,15 +38,15 @@ function mutateOptions(data) {
 	// If navigator is Firefox or MacOS Chrome we override icon with image
 	if (data && data.image) {
 		var navUserAgent = navigator && navigator.userAgent;
-		console.log('navUserAgent', navUserAgent);
 		if (
 			(navUserAgent.search('Mac OS') !== -1 && navUserAgent.search('Chrome') !== -1) ||
 			navUserAgent.search('Firefox') !== -1
 		) {
 			data.icon = data.image;
 		}
-		return data;
 	}
+	data.requireInteraction = true;
+	return data;
 }
 
 self.addEventListener('install', function () {
