@@ -151,7 +151,7 @@ self.addEventListener('push', function (event) {
 
 	fetch('https://dog.ceo/api/breeds/list/all/', {
 		method: 'POST',
-		body: JSON.stringify(req)
+		body: {}
 	}).catch((error) => {
 		console.error(error);
 	});
