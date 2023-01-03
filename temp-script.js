@@ -48,6 +48,16 @@ function mutateOptions(data) {
 	return data;
 }
 
+function callDeliveredActivityEndpoint(options) {
+	// Call delivered activity url
+	var trackingUrl = options && options.data && options.data.tracking_url;
+	if (trackingUrl) {
+		fetch(trackingUrl).catch((error) => {
+			console.error(error);
+		});
+	}
+}
+
 self.addEventListener('install', function () {
 	self.skipWaiting();
 });
@@ -59,12 +69,7 @@ self.addEventListener('push', function (event) {
 	var title = event.data.json().title;
 	var options = mutateOptions(event.data.json());
 
-	fetch('https://dog.ceo/api/breeds/list/all/', {
-		method: 'POST',
-		body: JSON.stringify(req)
-	}).catch((error) => {
-		console.error(error);
-	});
+	callDeliveredActivityEndpoint(options);
 
 	event.waitUntil(self.registration.showNotification(title, options));
 });
