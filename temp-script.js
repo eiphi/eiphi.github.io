@@ -50,7 +50,7 @@ function mutateOptions(data) {
 
 function callDeliveredActivityEndpoint(options) {
 	// Call delivered activity url
-	var trackingUrl = options && options.data && options.data.tracking_url;
+	var trackingUrl = options && options.data && options.data.event_tracking_url;
 	if (trackingUrl) {
 		fetch(trackingUrl).catch((error) => {
 			console.error(error);
