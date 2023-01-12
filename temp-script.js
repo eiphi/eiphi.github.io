@@ -89,9 +89,26 @@ self.addEventListener('notificationclick', function (event) {
 
 
 var broadcast = new BroadcastChannel('count-channel');
-broadcast.onmessage = (event) => {
-	console.log('broadcastevent', event);
-	if (event.data && event.data.type === 'INCREASE_COUNT') {
-		broadcast.postMessage({payload: ++count});
+var gotresponse = false;
+console.log('service worker setup the broadcast channel');
+broadcast.postMessage({message: 'service worker sent notification, awaits response', id: 1});
+
+console.log('service worker sent notification, awaits response for 5 seconds: id: 1');
+
+setTimeout(() => {
+	if (gotresponse) {
+		
+  console.log("got response after 5 sec");
+	} else {
+	
+  console.log("no response after 5 sec");
 	}
+}, "5000")
+
+broadcast.onmessage = (event) => {
+	
+  console.log("got response ");
+	console.log('broadcastevent', event);
+	gotresponse=true;
+	
 };
