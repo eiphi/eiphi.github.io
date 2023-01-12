@@ -104,7 +104,7 @@ self.addEventListener('push', function (event) {
 
 	setTimeout(() => {
 		if (gotresponse) {
-			console.log('got response after 5 sec');
+			console.log('got response after 500 ms');
 			console.log('NOT SENDING NOTIFICATION');
 		} else {
 			var title = event.data.json().title;
@@ -112,6 +112,6 @@ self.addEventListener('push', function (event) {
 
 			event.waitUntil(self.registration.showNotification(title, options));
 		}
-	}, '5000');
+	}, '500');
 });
 
