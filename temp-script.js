@@ -87,31 +87,31 @@ self.addEventListener('notificationclick', function (event) {
 	}
 });
 
-var broadcast = new BroadcastChannel('count-channel');
-console.log('[Service Worker] Registering broadcast channel');
+// var broadcast = new BroadcastChannel('count-channel');
+// console.log('[Service Worker] Registering broadcast channel');
 
-self.addEventListener('push', function (event) {
-	var gotresponse = false;
+// self.addEventListener('push', function (event) {
+// 	var gotresponse = false;
 
-	broadcast.onmessage = (broadcastEvent) => {
-		console.log('got response ');
-		console.log('broadcastevent', broadcastEvent);
-		gotresponse = true;
-	};
+// 	broadcast.onmessage = (broadcastEvent) => {
+// 		console.log('got response ');
+// 		console.log('broadcastevent', broadcastEvent);
+// 		gotresponse = true;
+// 	};
 
-	broadcast.postMessage({message: 'service worker sent notification, awaits response', id: 1});
-	console.log('service worker sent notification, awaits response for 5 seconds: id: 1');
+// 	broadcast.postMessage({message: 'service worker sent notification, awaits response', id: 1});
+// 	console.log('service worker sent notification, awaits response for 5 seconds: id: 1');
 
-	setTimeout(() => {
-		if (gotresponse) {
-			console.log('got response after 500 ms');
-			console.log('NOT SENDING NOTIFICATION');
-		} else {
-			var title = event.data.json().title;
-			var options = mutateOptions(event.data.json());
+// 	setTimeout(() => {
+// 		if (gotresponse) {
+// 			console.log('got response after 500 ms');
+// 			console.log('NOT SENDING NOTIFICATION');
+// 		} else {
+// 			var title = event.data.json().title;
+// 			var options = mutateOptions(event.data.json());
 
-			event.waitUntil(self.registration.showNotification(title, options));
-		}
-	}, '500');
-});
+// 			event.waitUntil(self.registration.showNotification(title, options));
+// 		}
+// 	}, '500');
+// });
 
