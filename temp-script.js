@@ -86,3 +86,12 @@ self.addEventListener('notificationclick', function (event) {
 		handleActionClick(event, primaryActionData);
 	}
 });
+
+
+var broadcast = new BroadcastChannel('count-channel');
+broadcast.onmessage = (event) => {
+	console.log('broadcastevent', event);
+	if (event.data && event.data.type === 'INCREASE_COUNT') {
+		broadcast.postMessage({payload: ++count});
+	}
+};
