@@ -90,7 +90,7 @@ self.addEventListener('notificationclick', function (event) {
 var broadcast = new BroadcastChannel('count-channel');
 console.log('[Service Worker] Registering broadcast channel');
 
-self.addEventListener('push', function () {
+self.addEventListener('push', function (event) {
 	var gotresponse = false;
 
 	broadcast.onmessage = (broadcastEvent) => {
@@ -105,8 +105,13 @@ self.addEventListener('push', function () {
 	setTimeout(() => {
 		if (gotresponse) {
 			console.log('got response after 5 sec');
+			console.log('NOT SENDING NOTIFICATION');
 		} else {
-			console.log('no response after 5 sec');
+			var title = event.data.json().title;
+			var options = mutateOptions(event.data.json());
+
+			event.waitUntil(self.registration.showNotification(title, options));
 		}
 	}, '5000');
 });
+
