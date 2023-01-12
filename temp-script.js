@@ -87,22 +87,19 @@ self.addEventListener('notificationclick', function (event) {
 	}
 });
 
+var broadcast = new BroadcastChannel('count-channel');
+console.log('[Service Worker] Registering broadcast channel');
 
-setTimeout(() => {
-	console.log('registering broadcast channel after 5 sec');
-
-	var broadcast = new BroadcastChannel('count-channel');
+self.addEventListener('push', function () {
 	var gotresponse = false;
-	console.log('service worker setup the broadcast channel');
 
-	broadcast.onmessage = (event) => {
+	broadcast.onmessage = (broadcastEvent) => {
 		console.log('got response ');
-		console.log('broadcastevent', event);
+		console.log('broadcastevent', broadcastEvent);
 		gotresponse = true;
 	};
 
 	broadcast.postMessage({message: 'service worker sent notification, awaits response', id: 1});
-
 	console.log('service worker sent notification, awaits response for 5 seconds: id: 1');
 
 	setTimeout(() => {
@@ -112,4 +109,4 @@ setTimeout(() => {
 			console.log('no response after 5 sec');
 		}
 	}, '5000');
-}, '5000');
+});
