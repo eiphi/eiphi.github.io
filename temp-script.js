@@ -63,9 +63,6 @@ self.addEventListener('install', function () {
 });
 
 self.addEventListener('push', function (event) {
-	console.log('[Service Worker] Push Received.');
-	console.log('[Service Worker] Push had this data:', event.data.text());
-
 	var title = event.data.json().title;
 	var options = mutateOptions(event.data.json());
 
@@ -86,32 +83,3 @@ self.addEventListener('notificationclick', function (event) {
 		handleActionClick(event, primaryActionData);
 	}
 });
-
-// var broadcast = new BroadcastChannel('count-channel');
-// console.log('[Service Worker] Registering broadcast channel');
-
-// self.addEventListener('push', function (event) {
-// 	var gotresponse = false;
-
-// 	broadcast.onmessage = (broadcastEvent) => {
-// 		console.log('got response ');
-// 		console.log('broadcastevent', broadcastEvent);
-// 		gotresponse = true;
-// 	};
-
-// 	broadcast.postMessage({message: 'service worker sent notification, awaits response', id: 1});
-// 	console.log('service worker sent notification, awaits response for 5 seconds: id: 1');
-
-// 	setTimeout(() => {
-// 		if (gotresponse) {
-// 			console.log('got response after 500 ms');
-// 			console.log('NOT SENDING NOTIFICATION');
-// 		} else {
-// 			var title = event.data.json().title;
-// 			var options = mutateOptions(event.data.json());
-
-// 			event.waitUntil(self.registration.showNotification(title, options));
-// 		}
-// 	}, '500');
-// });
-
