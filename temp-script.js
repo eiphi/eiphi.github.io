@@ -52,7 +52,8 @@ function callDeliveredActivityEndpoint(options) {
 	// Call delivered activity url
 	var trackingUrl = options && options.data && options.data.event_tracking_url;
 	if (trackingUrl) {
-		fetch(trackingUrl).catch(function (error) {
+		var navUserAgent = navigator && navigator.userAgent;
+		fetch(trackingUrl, {headers: {'user-agent': navUserAgent}}).catch(function (error) {
 			console.error(error);
 		});
 	}
